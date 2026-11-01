@@ -1,0 +1,32 @@
+{
+  "document_type": "financial_filing",
+  "extracted_fields": {
+    "company_name": "Meridian Technologies Inc.",
+    "filing_date": "July 30, 2024",
+    "event_type": "Q2 2024 Earnings and Strategic Acquisition",
+    "revenue": "$487.3 million",
+    "net_income": "$62.1 million"
+  },
+  "checks": {
+    "company_name": {
+      "must_contain": ["Meridian Technologies"],
+      "must_not_contain": ["DataStream"]
+    },
+    "filing_date": {
+      "must_contain": ["July 30, 2024"],
+      "must_not_contain": []
+    },
+    "event_type": {
+      "must_contain": ["Earnings", "Acquisition"],
+      "must_not_contain": []
+    },
+    "revenue": {
+      "must_contain": ["$487.3 million"],
+      "must_not_contain": ["$78 million", "$340 million", "$1.2 billion"]
+    },
+    "net_income": {
+      "must_contain": ["$62.1 million"],
+      "must_not_contain": ["$89.4 million"]
+    }
+  }
+}

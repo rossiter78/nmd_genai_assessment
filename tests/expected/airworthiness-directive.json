@@ -1,0 +1,43 @@
+{
+  "document_type": "airworthiness_directive",
+  "extracted_fields": {
+    "ad_number": "2024-09-15",
+    "affected_aircraft": [
+      "Boeing 737-800 series, line numbers 3200 through 5400",
+      "Boeing 737-900ER series, line numbers 3800 through 4200"
+    ],
+    "compliance_deadline": "May 22, 2024",
+    "required_action": [
+      "Initial inspection: Within 18 months or 6,000 flight cycles after the effective date, whichever occurs first.",
+      "Inspection method: Detailed visual inspection (DVI) and high-frequency eddy current (HFEC) inspection of the wing front spar lower chord at WBL 160, left and right wings.",
+      "Repetitive inspections: Every 3,000 flight cycles after initial inspection.",
+      "If cracking is found: Repair using Boeing-approved repair method within 30 flight cycles of discovery. Contact Boeing for repair data.",
+      "Alternative methods of compliance (AMOC): Requests for AMOCs must be submitted to the Manager, Seattle ACO Branch, FAA, at sean.williams@faa.gov or (206) 231-3500."
+    ]
+  },
+  "checks": {
+    "ad_number": {
+      "must_contain": ["2024-09-15"],
+      "must_not_contain": []
+    },
+    "affected_aircraft": {
+      "must_contain": ["737-800", "737-900ER", "3200", "5400", "3800", "4200"],
+      "must_not_contain": ["1,200"]
+    },
+    "compliance_deadline": {
+      "must_contain": ["May 22, 2024"],
+      "must_not_contain": ["18 months", "6,000"]
+    },
+    "required_action": {
+      "must_contain": [
+        "18 months",
+        "6,000 flight cycles",
+        "eddy current",
+        "3,000 flight cycles",
+        "30 flight cycles",
+        "Seattle ACO"
+      ],
+      "must_not_contain": ["$2,850", "$3,420,000"]
+    }
+  }
+}

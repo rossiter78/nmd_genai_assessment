@@ -1,0 +1,41 @@
+{
+  "document_type": "cybersecurity_advisory",
+  "extracted_fields": {
+    "severity": "Critical",
+    "cve_ids": ["CVE-2023-27997", "CVE-2024-20359", "CVE-2024-21887"],
+    "affected_products": ["FortiGate SSL-VPN", "Cisco ASA and FTD", "Ivanti Connect Secure"],
+    "mitigation_steps": [
+      "Apply vendor-supplied patches immediately for all listed CVEs.",
+      "Reset all credentials that may have traversed compromised appliances.",
+      "Enable multi-factor authentication on all remote access points.",
+      "Monitor network traffic for indicators of compromise listed in Appendix A.",
+      "Segment network access to limit lateral movement from edge devices.",
+      "Review and restrict administrative access to management interfaces."
+    ]
+  },
+  "checks": {
+    "severity": {
+      "must_contain": ["Critical"],
+      "must_not_contain": ["9.8"]
+    },
+    "cve_ids": {
+      "must_contain": ["CVE-2023-27997", "CVE-2024-20359", "CVE-2024-21887"],
+      "must_not_contain": ["9.8", "8.2"]
+    },
+    "affected_products": {
+      "must_contain": ["FortiGate", "Cisco ASA", "FTD", "Ivanti Connect Secure"],
+      "must_not_contain": ["heap buffer overflow", "command injection"]
+    },
+    "mitigation_steps": {
+      "must_contain": [
+        "patches",
+        "credentials",
+        "multi-factor",
+        "indicators of compromise",
+        "segment",
+        "administrative access"
+      ],
+      "must_not_contain": ["report@cisa.gov"]
+    }
+  }
+}

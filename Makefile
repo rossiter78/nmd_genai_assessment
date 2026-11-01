@@ -1,4 +1,4 @@
-.PHONY: install check format test test-cov clean docker-build docker-push deploy update-lambdas tf-init tf-plan tf-apply tf-destroy upload-data
+.PHONY: install check format test test-cov test-haiku clean docker-build docker-push deploy update-lambdas tf-init tf-plan tf-apply tf-destroy upload-data
 
 # --- Development ---
 install:
@@ -15,6 +15,9 @@ test:
 
 test-cov:
 	uv run pytest tests/ --cov=src --cov-report=term-missing
+
+test-haiku:
+	RUN_HAIKU_TESTS=1 uv run pytest tests/test_haiku_comparison.py -k test_haiku_matches_expected -v -s
 
 clean:
 	rm -rf .pytest_cache __pycache__ src/**/__pycache__
