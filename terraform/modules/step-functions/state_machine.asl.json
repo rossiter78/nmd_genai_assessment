@@ -17,6 +17,7 @@
         "title.$": "$.Payload.title",
         "content.$": "$.Payload.content",
         "source.$": "$.Payload.source",
+        "date.$": "$.Payload.date",
         "status.$": "$.Payload.status"
       },
       "Next": "Classify",
@@ -95,6 +96,7 @@
           "title.$": "$.preprocess_result.title",
           "content.$": "$.preprocess_result.content",
           "source.$": "$.preprocess_result.source",
+          "date.$": "$.preprocess_result.date",
           "document_type.$": "$.classify_result.document_type"
         }
       },
