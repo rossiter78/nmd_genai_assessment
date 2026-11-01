@@ -2,8 +2,10 @@
 
 import logging
 
+from common.settings import get_settings
 from tasks.aggregate import aggregate_results
 
+logging.getLogger().setLevel(get_settings().log_level)
 logger = logging.getLogger(__name__)
 
 
