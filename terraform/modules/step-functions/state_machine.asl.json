@@ -40,7 +40,13 @@
       "Resource": "arn:aws:states:::lambda:invoke",
       "Parameters": {
         "FunctionName": "${extract_arn}",
-        "Payload.$": "$.preprocess_result"
+        "Payload": {
+          "document_id.$": "$.preprocess_result.document_id",
+          "title.$": "$.preprocess_result.title",
+          "content.$": "$.preprocess_result.content",
+          "source.$": "$.preprocess_result.source",
+          "document_type.$": "$.classify_result.document_type"
+        }
       },
       "ResultPath": "$.extract_result",
       "ResultSelector": {
