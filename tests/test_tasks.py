@@ -20,13 +20,31 @@ class ThrottlingException(Exception):
     """Stands in for Bedrock's modeled throttling error, which Step Functions retries by name."""
 
 
-def bedrock_client(mocker, text):
-    """Return a fake Bedrock client whose InvokeModel and Converse calls both reply with text."""
+def bedrock_client(mocker, text, stop_reason="end_turn"):
+    """Return a fake Bedrock client whose replies start with a thinking block, as Haiku 5.5's can."""
     client = mocker.MagicMock()
     client.invoke_model.side_effect = lambda **_: {
-        "body": io.BytesIO(json.dumps({"content": [{"type": "text", "text": text}]}).encode())
+        "body": io.BytesIO(
+            json.dumps(
+                {
+                    "content": [
+                        {"type": "thinking", "thinking": "", "signature": "sig"},
+                        {"type": "text", "text": text},
+                    ],
+                    "stop_reason": stop_reason,
+                }
+            ).encode()
+        )
     }
-    client.converse.return_value = {"output": {"message": {"role": "assistant", "content": [{"text": text}]}}}
+    client.converse.return_value = {
+        "output": {
+            "message": {
+                "role": "assistant",
+                "content": [{"reasoningContent": {"reasoningText": {"text": "", "signature": "sig"}}}, {"text": text}],
+            }
+        },
+        "stopReason": stop_reason,
+    }
     return client
 
 
@@ -108,6 +126,15 @@ class TestClassify:
 
         assert classify_document(self.EVENT)["classification_confidence"] == expected
 
+    @pytest.mark.parametrize("stop_reason", ["max_tokens", "refusal"])
+    def test_incomplete_reply_raises_value_error(self, mocker, stop_reason):
+        """A cut-off or refused reply can't be trusted, even if its text parses."""
+        reply = json.dumps({"document_type": "drug_approval", "confidence": 0.9})
+        patch_bedrock(mocker, "classify", bedrock_client(mocker, reply, stop_reason))
+
+        with pytest.raises(ValueError):
+            classify_document(self.EVENT)
+
     def test_bedrock_errors_are_not_wrapped(self, mocker):
         """Step Functions matches retryable errors by name."""
         patch_bedrock(mocker, "classify", throttled_client(mocker))
@@ -184,6 +211,15 @@ class TestExtract:
         patch_bedrock(mocker, "extract", bedrock_client(mocker, reply))
 
         assert extract_fields(self.event())["extraction_confidence"] == 1.0
+
+    @pytest.mark.parametrize("stop_reason", ["max_tokens", "refusal"])
+    def test_incomplete_reply_raises_value_error(self, mocker, stop_reason):
+        """A cut-off or refused reply can't be trusted, even if its text parses."""
+        reply = json.dumps({"extracted_fields": {"drug_name": "X"}, "confidence": 0.7})
+        patch_bedrock(mocker, "extract", bedrock_client(mocker, reply, stop_reason))
+
+        with pytest.raises(ValueError):
+            extract_fields(self.event())
 
     def test_bedrock_errors_are_not_wrapped(self, mocker):
         """Step Functions matches retryable errors by name."""
