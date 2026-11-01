@@ -19,7 +19,30 @@
         "source.$": "$.Payload.source",
         "status.$": "$.Payload.status"
       },
-      "Next": "Classify"
+      "Next": "Classify",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0,
+          "JitterStrategy": "FULL"
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "PipelineFailed"
+        }
+      ]
     },
     "Classify": {
       "Type": "Task",
@@ -33,7 +56,34 @@
         "document_type.$": "$.Payload.document_type",
         "confidence.$": "$.Payload.classification_confidence"
       },
-      "Next": "Extract"
+      "Next": "Extract",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException",
+            "ThrottlingException",
+            "ServiceUnavailableException",
+            "InternalServerException",
+            "ModelTimeoutException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0,
+          "JitterStrategy": "FULL"
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "PipelineFailed"
+        }
+      ]
     },
     "Extract": {
       "Type": "Task",
@@ -53,7 +103,34 @@
         "extracted_fields.$": "$.Payload.extracted_fields",
         "confidence.$": "$.Payload.extraction_confidence"
       },
-      "Next": "Aggregate"
+      "Next": "Aggregate",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException",
+            "ThrottlingException",
+            "ServiceUnavailableException",
+            "InternalServerException",
+            "ModelTimeoutException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0,
+          "JitterStrategy": "FULL"
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "PipelineFailed"
+        }
+      ]
     },
     "Aggregate": {
       "Type": "Task",
@@ -67,7 +144,35 @@
         "document_type.$": "$.Payload.document_type",
         "status.$": "$.Payload.status"
       },
-      "End": true
+      "End": true,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0,
+          "JitterStrategy": "FULL"
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "PipelineFailed"
+        }
+      ]
+    },
+    "PipelineFailed": {
+      "Type": "Fail",
+      "ErrorPath": "$.error.Error",
+      "CausePath": "$.error.Cause"
     }
   }
 }
