@@ -47,7 +47,7 @@ FIELDS_BY_TYPE = {
         "filing_date": (TEXT, "The date of the report."),
         "event_type": (
             TEXT,
-            "A short label for the event or events reported, using the title's wording.",
+            "The events named in the document's title, without the company name. Not form or section headings.",
         ),
         "revenue": (TEXT, "The filing company's own total revenue for the reported period, not another company's."),
         "net_income": (TEXT, "The filing company's own net income for the reported period."),
