@@ -1,0 +1,28 @@
+{
+  "document_id": "cybersecurity-advisory",
+  "document_type": "cybersecurity_advisory",
+  "classification_confidence": 0.99,
+  "extracted_fields": {
+    "severity": "Critical",
+    "cve_ids": [
+      "CVE-2023-27997",
+      "CVE-2024-20359",
+      "CVE-2024-21887"
+    ],
+    "affected_products": [
+      "FortiGate SSL-VPN",
+      "Cisco ASA and FTD",
+      "Ivanti Connect Secure"
+    ],
+    "mitigation_steps": [
+      "Apply vendor-supplied patches immediately for all listed CVEs.",
+      "Reset all credentials that may have traversed compromised appliances.",
+      "Enable multi-factor authentication on all remote access points.",
+      "Monitor network traffic for indicators of compromise listed in Appendix A.",
+      "Segment network access to limit lateral movement from edge devices.",
+      "Review and restrict administrative access to management interfaces."
+    ]
+  },
+  "extraction_confidence": 0.95,
+  "status": "completed"
+}

@@ -1,0 +1,14 @@
+{
+  "document_id": "drug-approval",
+  "document_type": "drug_approval",
+  "classification_confidence": 0.98,
+  "extracted_fields": {
+    "drug_name": "LUXTERA (miravimod)",
+    "indication": "moderate-to-severe plaque psoriasis",
+    "approval_date": "June 15, 2024",
+    "applicant": "Meridian Pharmaceuticals Inc.",
+    "dosage": "6 mg once daily; may increase to 12 mg once daily after 16 weeks if response is inadequate"
+  },
+  "extraction_confidence": 0.95,
+  "status": "completed"
+}

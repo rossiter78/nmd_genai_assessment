@@ -1,0 +1,14 @@
+{
+  "document_id": "financial-filing",
+  "document_type": "financial_filing",
+  "classification_confidence": 0.98,
+  "extracted_fields": {
+    "company_name": "Meridian Technologies Inc.",
+    "filing_date": "July 30, 2024",
+    "event_type": "Q2 2024 Earnings and Strategic Acquisition",
+    "revenue": "$487.3 million",
+    "net_income": "$62.1 million"
+  },
+  "extraction_confidence": 0.9,
+  "status": "completed"
+}
